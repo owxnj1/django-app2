@@ -1,2 +1,3 @@
 # django-app2
-This repository is for Django Apps, third year computing
+This is the
+repository for Django-app for DCBS Module
