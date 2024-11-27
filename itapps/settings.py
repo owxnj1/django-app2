@@ -29,11 +29,10 @@ DEBUG = WEBSITE_HOSTNAME == None
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-if DEBUG:
-    ALLOWED_HOSTS = []
-else:
-    ALLOWED_HOSTS = [WEBSITE_HOSTNAME]
-    CSRF_TRUSTED_ORIGINS = [f'https://{WEBSITE_HOSTNAME}']
+
+CSRF_TRUSTED_ORIGINS = [f'https://c2022740-f9hqhuhcbedwbkgh.uksouth-01.azurewebsites.net']
+
+CORS_ALLOWED_ORIGINS = [f'https://c2022740-f9hqhuhcbedwbkgh.uksouth-01.azurewebsites.net']
 
 
 
