@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'your_current_secret_key_value')
 
 WEBSITE_HOSTNAME = os.environ.get('WEBSITE_HOSTNAME', None) 
 
-DEBUG = WEBSITE_HOSTNAME == None 
+DEBUG = WEBSITE_HOSTNAME == None   
 
 if DEBUG: 
 
