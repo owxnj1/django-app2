@@ -6,6 +6,7 @@ class UsersConfig(AppConfig):
     name = 'users'
 
 def ready(self):
+    import users.signals
     from .signals import create_profile
 
     

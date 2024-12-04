@@ -5,10 +5,27 @@ from .models import Profile
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(label='Email address', help_text='Your SHU email address.')
+    date_of_birth = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}), required=True)
+    address = forms.CharField(max_length=255, required=True)
+    city = forms.CharField(max_length=100, required=True)
+    country = forms.CharField(max_length=100, required=True)
 
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
+
+def save(self, commit=True):
+        # Save the user and create a profile with extra fields
+        user = super().save(commit=commit)
+        if commit:
+            Profile.objects.create(
+                user=user,
+                date_of_birth=self.cleaned_data.get('date_of_birth'),
+                address=self.cleaned_data.get('address'),
+                city=self.cleaned_data.get('city'),
+                country=self.cleaned_data.get('country'),
+            )
+        return user
 
 
 class UserUpdateForm(forms.ModelForm):
@@ -20,6 +37,12 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class ProfileUpdateForm(forms.ModelForm):
+    date_of_birth = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}), required=False)
+    address = forms.CharField(max_length=255, required=False)
+    city = forms.CharField(max_length=100, required=False)
+    country = forms.CharField(max_length=100, required=False)
+    image = forms.ImageField(required=False)
+
     class Meta:
         model = Profile
-        fields = ['image']
+        fields = ['image', 'date_of_birth', 'address', 'city', 'country']

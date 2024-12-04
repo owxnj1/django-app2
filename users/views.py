@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import UserRegisterForm, UserUpdateForm,ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
+from .models import Profile
 
 # Create your views here.
 
@@ -9,7 +10,7 @@ def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Your account has been created! Now you can login!')
             return redirect('login')  
@@ -22,6 +23,11 @@ def register(request):
 
 @login_required
 def profile(request):
+
+    if not hasattr(request.user, 'profile'):
+        Profile.objects.create(user=request.user)
+# this code makes it so that when a user creates an account they automatically get a profile created
+
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
