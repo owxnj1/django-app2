@@ -24,3 +24,14 @@ class Issue(models.Model):
 
     def get_absolute_url(self):
         return reverse('itreporting:issue-detail', kwargs={'pk': self.pk})
+
+class Course(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    start_date = models.DateField()
+
+    def __str__(self):
+        return self.title
+    
+    def get_absolute_url(self):
+        return reverse('itreporting:course_detail', kwargs={'pk': self.pk})

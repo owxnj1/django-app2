@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import DeleteView
+from .models import Course
 
 def home(request):
     return render(request, 'itreporting/home.html', {'title': 'Welcome'})
@@ -19,6 +20,38 @@ def contact(request):
 def report(request):
     daily_report = {'issues': Issue.objects.all(), 'title': 'Issues Reported'}
     return render(request, 'itreporting/report.html', daily_report)
+
+def courses(request):
+    courses = Course.objects.all()  
+    return render(request, 'itreporting/courses.html', {'courses': courses, 'title': 'Courses'})
+
+class CourseDetailView(DetailView):
+    model = Course
+    template_name = 'itreporting/courses_detail.html'
+
+class CourseListView(ListView):
+    model = Course
+    ordering = ['-start_date']
+    template_name = 'itreporting/courses.html'
+    context_object_name = 'courses'
+    paginate_by = 5
+
+class CourseCreateView(LoginRequiredMixin, CreateView):
+    model = Course
+    fields = ['title', 'description', 'start_date']
+    template_name = 'itreporting/courses_form.html'
+
+    
+class CourseUpdateView(LoginRequiredMixin, UpdateView):
+    model = Course
+    fields = ['title', 'description', 'start_date']
+    
+
+class CourseDeleteView(LoginRequiredMixin, DeleteView):
+    model = Course
+    success_url = reverse_lazy('courses')
+
+ 
 
 class PostListView(ListView):
     model = Issue

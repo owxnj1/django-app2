@@ -1,0 +1,16 @@
+{% extends 'itreporting/base.html' %}
+{% block content %}
+<head> 
+    <title> Leicester University Courses</title>
+</head>
+<article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="#">{{ course.title }}</a>
+            <small class="text-muted"><strong>Start date:</strong>{{ course.start_date  }}</small>
+        </div>
+        <h2 class="article-title">{{ course.title }} description: {{ course.description }}</h2>
+        <p class="article-content">{{ object.details }}</p>
+    </div>
+</article>
+{% endblock %}
