@@ -35,3 +35,6 @@ class Course(models.Model):
     
     def get_absolute_url(self):
         return reverse('itreporting:course_detail', kwargs={'pk': self.pk})
+    
+
+

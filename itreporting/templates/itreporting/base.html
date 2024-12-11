@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
-    <!-- Bootstrap CSS -->
+    <!--   Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" 
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
@@ -15,10 +15,8 @@
     <title> Leicester University- {{ title }}</title>
 </head>
 <body>
-    <img src="{{ MEDIA_URL }}leicesterUniversity.png" alt="Leicester University Logo" style="width: 200px; height: auto;">
 
-
-
+    
     <div class="container">
         <header class="site-header">
             <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
@@ -35,6 +33,7 @@
                             <a class="nav-item nav-link" href="{% url 'itreporting:contact' %}">Contact</a>
                             <a class="nav-item nav-link" href="{% url 'itreporting:report'%}">Report</a>
                             <a class="nav-item nav-link" href="{% url 'itreporting:courses'%}">Courses</a>
+      </li>
                         </div>
                         
                         <!-- Conditional Navbar Right Side -->

@@ -35,6 +35,7 @@ class CourseListView(ListView):
     template_name = 'itreporting/courses.html'
     context_object_name = 'courses'
     paginate_by = 5
+    
 
 class CourseCreateView(LoginRequiredMixin, CreateView):
     model = Course
@@ -87,3 +88,5 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         issue = self.get_object()
         return self.request.user == issue.author
+    
+
