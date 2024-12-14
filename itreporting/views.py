@@ -7,15 +7,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import DeleteView
 from .models import Course
+from .forms import ContactForm
+from django.core.mail import send_mail
+from django.contrib import messages
 
 def home(request):
     return render(request, 'itreporting/home.html', {'title': 'Welcome'})
 
 def about(request):
     return render(request, 'itreporting/about.html',)
-
-def contact(request):
-    return render(request, 'itreporting/contact.html',)
 
 def report(request):
     daily_report = {'issues': Issue.objects.all(), 'title': 'Issues Reported'}
@@ -90,3 +90,26 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user == issue.author
     
 
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+
+            description = f"Message from {name} via Contact Form"
+            body = f"Name: {name}\nEmail: {email}\nSubject: {subject}\n\nMessage:\n{message}"
+            receiver = 'owencode54@gmail.com' #Email which recieves the message
+
+            try:
+                send_mail(subject, body, email, [receiver])
+                messages.success(request, "Thanks for contacting Leicester University.")
+            except Exception as e:
+                messages.error(request, f"An error occurred: {str(e)}. Please fill out the form again")
+
+            return render(request, 'itreporting/contact.html', {'form': form})
+    else:
+        form = ContactForm()
+    return render(request, 'itreporting/contact.html', {'form': form})

@@ -2,4 +2,18 @@
 
 {% block content %}
     <h1>Student contact us page</h1>
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">
+                    Contact us form : 
+                </legend>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Send</button>
+            </div>
+        </form>
+    </div>
 {% endblock %}

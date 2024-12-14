@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django import forms
+from django.core.validators import EmailValidator
 
 class Issue(models.Model):
     type = models.CharField(
@@ -35,6 +37,9 @@ class Course(models.Model):
     
     def get_absolute_url(self):
         return reverse('itreporting:course_detail', kwargs={'pk': self.pk})
+    
+
+
     
 
 
