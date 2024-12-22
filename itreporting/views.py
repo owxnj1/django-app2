@@ -10,6 +10,7 @@ from .models import Course
 from .forms import ContactForm
 from django.core.mail import send_mail
 from django.contrib import messages
+from .models import Module
 
 def home(request):
     return render(request, 'itreporting/home.html', {'title': 'Welcome'})
@@ -88,6 +89,16 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         issue = self.get_object()
         return self.request.user == issue.author
+    
+class ModuleListView(ListView):
+    model = Module
+    template_name = 'itreporting/modules.html'
+    context_object_name = 'modules'
+    paginate_by = 5 
+
+class ModuleDetailView(DetailView):
+    model = Module
+    template_name = 'itreporting/modules_detail.html'
     
 
 def contact(request):

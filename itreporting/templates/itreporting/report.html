@@ -10,7 +10,6 @@
                     <small class="text-muted">{{ issue.date_submitted }}</small>
                 </div>
                 <h2>
-                    <!-- Issue link with more meaningful text -->
                     <a class="article-title" href="{% url 'itreporting:issue-detail' issue.id %}">
                         {{ issue.type }} in Room {{ issue.room }}
                     </a>

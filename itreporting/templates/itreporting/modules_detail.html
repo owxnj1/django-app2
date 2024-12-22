@@ -1,0 +1,20 @@
+{% extends 'itreporting/base.html' %}
+
+{% block content %}
+<article class="media content-section">
+    <div class="media-body">
+        <h1>{{ module.name }}</h1>
+        <p><strong>Code:</strong> {{ module.code }}</p>
+        <p><strong>Credit:</strong> {{ module.credit }}</p>
+        <p><strong>Category:</strong> {{ module.category }}</p>
+        <p><strong>Description:</strong> {{ module.description }}</p>
+        <p><strong>Availability:</strong> {{ module.availability|yesno:"Open,Closed" }}</p>
+        <h2>Courses allowed to register:</h2>
+        <ul>
+            {% for course in module.courses_allowed.all %}
+            <li>{{ course.title }}</li>
+            {% endfor %} 
+        </ul>
+    </div>
+</article>
+{% endblock %}          

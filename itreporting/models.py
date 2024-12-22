@@ -38,7 +38,20 @@ class Course(models.Model):
     def get_absolute_url(self):
         return reverse('itreporting:course_detail', kwargs={'pk': self.pk})
     
+class Module(models.Model):
+    name = models.CharField(max_length=200)
+    code = models.CharField(max_length=20)
+    credit = models.IntegerField()
+    category = models.CharField(max_length=100)
+    description = models.TextField()
+    availability = models.BooleanField(default=True)
+    courses_allowed = models.ManyToManyField(Course)
 
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('modules_detail', kwargs={'pk': self.pk})
 
     
 
