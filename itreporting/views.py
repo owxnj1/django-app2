@@ -12,6 +12,7 @@ from django.core.mail import send_mail
 from django.contrib import messages
 from .models import Module
 
+
 def home(request):
     return render(request, 'itreporting/home.html', {'title': 'Welcome'})
 
@@ -95,10 +96,20 @@ class ModuleListView(ListView):
     template_name = 'itreporting/modules.html'
     context_object_name = 'modules'
     paginate_by = 5 
+    
+   # def get_queryset(self):
+ 
+        #user_profile = self.request.user.profile  # Get the logged-in user's profile
+        #if user_profile.course:
+            # Filter modules by the user's enrolled course
+           # return Module.objects.filter(courses_allowed=user_profile.course)
+        #return Module.objects.none()
 
 class ModuleDetailView(DetailView):
     model = Module
     template_name = 'itreporting/modules_detail.html'
+
+
     
 
 def contact(request):

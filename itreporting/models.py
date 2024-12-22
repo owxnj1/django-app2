@@ -1,3 +1,4 @@
+import django.db.models.deletion
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -32,6 +33,9 @@ class Course(models.Model):
     description = models.TextField()
     start_date = models.DateField()
 
+    #enrolled_students = models.ManyToManyField('users.Profile', blank=True, related_name='courses')
+
+
     def __str__(self):
         return self.title
     
@@ -47,6 +51,8 @@ class Module(models.Model):
     availability = models.BooleanField(default=True)
     courses_allowed = models.ManyToManyField(Course)
 
+
+
     def __str__(self):
         return self.name
 
@@ -54,5 +60,14 @@ class Module(models.Model):
         return reverse('modules_detail', kwargs={'pk': self.pk})
 
     
+class Registration(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="registrations")
+    module = models.ForeignKey('itreporting.Module', on_delete=models.CASCADE, related_name="registrations")
+    registration_date = models.DateField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.student.username} registered for {self.module.name} on {self.registration_date}"
+
+
 
 

@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
+#from itreporting.models import Course
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(label='Email address', help_text='Your SHU email address.')
@@ -9,6 +10,7 @@ class UserRegisterForm(UserCreationForm):
     address = forms.CharField(max_length=255, required=True)
     city = forms.CharField(max_length=100, required=True)
     country = forms.CharField(max_length=100, required=True)
+    #course = forms.ModelChoiceField(queryset=Course.objects.all(), required=True)
 
     class Meta:
         model = User

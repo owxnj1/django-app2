@@ -9,7 +9,15 @@ class Profile(models.Model):
     address = models.CharField(max_length=255, null=True, blank=True)
     city = models.CharField(max_length=100, null=True, blank=True)
     country = models.CharField(max_length=100, null=True, blank=True)
+    
+    
+   # course = models.ForeignKey('itreporting.Course', on_delete=models.SET_NULL, null=True, blank=True, related_name='students')
+    
 
 
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}'
+    
+    def enroll_in_course(self, course):
+        self.course = course
+        self.save()
