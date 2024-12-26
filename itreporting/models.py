@@ -64,9 +64,14 @@ class Registration(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="registrations")
     module = models.ForeignKey('itreporting.Module', on_delete=models.CASCADE, related_name="registrations")
     registration_date = models.DateField(auto_now_add=True)
-    
+
+    class Meta:
+        unique_together = ('student', 'module')  # Ensures a student can't register for the same module twice
+        ordering = ['-registration_date']  # Orders registrations by most recent
+
     def __str__(self):
         return f"{self.student.username} registered for {self.module.name} on {self.registration_date}"
+
 
 
 

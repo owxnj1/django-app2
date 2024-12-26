@@ -1,16 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Issue
+from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import DeleteView
 from .models import Course
-from .forms import ContactForm
+from .forms import ContactForm, RegistrationForm
 from django.core.mail import send_mail
 from django.contrib import messages
 from .models import Module
+from itreporting.models import Registration
+
 
 
 def home(request):
@@ -135,3 +138,28 @@ def contact(request):
     else:
         form = ContactForm()
     return render(request, 'itreporting/contact.html', {'form': form})
+
+@login_required
+def register_module(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            module = form.cleaned_data['module']
+            
+            if Registration.objects.filter(student=request.user, module=module).exists():
+                messages.error(request, f"You are already registered for this module !: {module.name}.")
+            else:
+                registration = form.save(commit=False)
+                registration.student = request.user
+                registration.save()
+                messages.success(request, f"Thank you , registration succesful!: {module.name}.")
+    else:
+        form = RegistrationForm()
+
+    return render(request, 'itreporting/register_module.html', {'form': form})
+
+
+@login_required
+def my_modules(request):
+    registrations = Registration.objects.filter(student=request.user)
+    return render(request, 'itreporting/my_modules.html', {'registrations': registrations})

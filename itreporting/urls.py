@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, ModuleListView, ModuleDetailView
+from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, ModuleListView, ModuleDetailView, register_module
 
 
 app_name = 'itreporting'
@@ -13,6 +13,8 @@ urlpatterns = [
     path('report/', PostListView.as_view(), name = 'report'),
     path('courses/', views.courses, name='courses'),
     path('modules/', ModuleListView.as_view(), name='modules'),
+    path('register/', register_module, name='register_module'),
+    path('my-modules/', views.my_modules, name='my_modules'),
     path('modules/<int:pk>/', ModuleDetailView.as_view(), name='modules_detail'),
     path('issues/<int:pk>', PostDetailView.as_view(), name = 'issue-detail'),
     path('issue/new', PostCreateView.as_view(), name = 'issue-create'),
