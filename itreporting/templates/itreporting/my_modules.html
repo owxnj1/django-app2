@@ -6,9 +6,11 @@
     <ul>
         {% for registration in registrations %}
             <li>{{ registration.module.name }} (Registered on {{ registration.registration_date }})</li>
+            <a href="{% url 'itreporting:unregister_module' registration.module.id %}" class="btn btn-danger">Unregister</a>
         {% empty %}
             <li>You have not registered for any modules yet.</li>
         {% endfor %}
     </ul>
 </div>
+
 {% endblock %}

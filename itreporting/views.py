@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Issue
 from django.contrib.auth.decorators import login_required
@@ -163,3 +163,18 @@ def register_module(request):
 def my_modules(request):
     registrations = Registration.objects.filter(student=request.user)
     return render(request, 'itreporting/my_modules.html', {'registrations': registrations})
+
+@login_required
+def unregister_module(request, module_id):
+    # Get the module the user wants to unregister from
+    module = get_object_or_404(Module, id=module_id)
+    
+    # Check if the user is registered for this module
+    registration = Registration.objects.filter(student=request.user, module=module).first()
+    if registration:
+        registration.delete()
+        messages.success(request, f"You have successfully unregistered from the module: {module.name}.")
+    else:
+        messages.error(request, f"You are not registered for the module: {module.name}.")
+    
+    return redirect('itreporting:my_modules')

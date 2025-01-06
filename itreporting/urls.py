@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, ModuleListView, ModuleDetailView, register_module
+from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, ModuleListView, ModuleDetailView, register_module, unregister_module
 
 
 app_name = 'itreporting'
@@ -25,6 +25,7 @@ urlpatterns = [
     path('courses/<int:pk>/', views.CourseDetailView.as_view(), name='course_detail'),  
     path('courses/<int:pk>/update/', views.CourseUpdateView.as_view(), name='course_update'),  
     path('courses/<int:pk>/delete/', views.CourseDeleteView.as_view(), name='course_delete'),
+    path('unregister/<int:module_id>/', unregister_module, name='unregister_module'),
     
                ]
 
