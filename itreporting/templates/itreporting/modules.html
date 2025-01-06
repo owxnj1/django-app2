@@ -13,7 +13,12 @@
         <p><strong>Description:</strong> {{ module.description }}</p>
         <p><strong>Availability:</strong> {{ module.availability|yesno:"Open,Closed" }}</p>
         <a href="{% url 'itreporting:modules_detail' module.id %}">{{ module.name }}</a>
-
+        
+        {% for registration in module.registrations.all %}
+        {% if registration.student == request.user %}
+            <a href="{% url 'itreporting:unregister_module' module.id %}" class="btn btn-danger mt-2">Unregister</a>
+        {% endif %}
+    {% endfor %}
         
     </div>
 </article>

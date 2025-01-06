@@ -10,23 +10,21 @@ class UserRegisterForm(UserCreationForm):
     address = forms.CharField(max_length=255, required=True)
     city = forms.CharField(max_length=100, required=True)
     country = forms.CharField(max_length=100, required=True)
-    #course = forms.ModelChoiceField(queryset=Course.objects.all(), required=True)
+
 
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
-
-def save(self, commit=True):
-        # Save the user and create a profile with extra fields
+        
+    def save(self, commit=True):
         user = super().save(commit=commit)
         if commit:
-            Profile.objects.create(
-                user=user,
-                date_of_birth=self.cleaned_data.get('date_of_birth'),
-                address=self.cleaned_data.get('address'),
-                city=self.cleaned_data.get('city'),
-                country=self.cleaned_data.get('country'),
-            )
+            # Populate the Profile fields
+            user.profile.date_of_birth = self.cleaned_data['date_of_birth']
+            user.profile.address = self.cleaned_data['address']
+            user.profile.city = self.cleaned_data['city']
+            user.profile.country = self.cleaned_data['country']
+            user.profile.save()  # Save the updated profile
         return user
 
 
