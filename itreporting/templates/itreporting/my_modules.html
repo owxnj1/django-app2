@@ -1,19 +1,7 @@
 {% extends "itreporting/base.html" %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2>My Registered Modules</h2>
-    <ul>
-        {% for registration in registrations %}
-            <li>{{ registration.module.name }} (Registered on {{ registration.registration_date }})</li>
-            <a href="{% url 'itreporting:unregister_module' registration.module.id %}" class="btn btn-danger">Unregister</a>
-        {% empty %}
-            <li>You have not registered for any modules yet.</li>
-        {% endfor %}
-    </ul>
-</div>
-
-<div class="col-md-4 text-center">
+<div class="col-md-12 text-center">
     <div class="profile-section">
         <h3>Your Profile</h3>
         <img 
@@ -23,6 +11,20 @@
             style="width: 150px; height: 150px; border: 1px solid #ddd;">
         </div>
     </div>
+<div class="container mt-5 text-center">
+    <h2>My Registered Modules</h2>
+    <div>
+        {% for registration in registrations %}
+            <p>{{ registration.module.name }} (Registered on {{ registration.registration_date }})
+                <a href="{% url 'itreporting:unregister_module' registration.module.id %}" class="btn btn-danger">Unregister</a>
+            </p>
+        {% empty %}
+            <p>You have not registered for any modules yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+
 </div>
 </div>
 
