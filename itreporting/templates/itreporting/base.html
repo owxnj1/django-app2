@@ -25,6 +25,24 @@
         .contact-form-box {
             width:100%;
         }
+
+        .about-image img {
+            width: auto; /* Default for larger screens */
+        }
+
+        @media screen and (max-width: 768px) { 
+            .about {
+                display: block;
+            }
+            .about-image {
+                margin-right: 0px;
+            }
+            .about-image img {
+                width: 100%;
+                height: auto;
+                padding-bottom: 25px;
+            }
+        }
     </style>
 
 </head>

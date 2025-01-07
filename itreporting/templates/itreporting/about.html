@@ -4,6 +4,21 @@
 {% block content %}
     <div class="about-title">
         <h1>About Us</h1>
+        {% block sidebar %}
+        <div class="col-md-4 weather-box">
+            <div class="content-section">
+                <h3>Current Weather</h3>
+                <ul class="list-group">
+                    {% for weather in weather_data %}
+                    <li class="list-group-item">
+                        <img src="{% static 'images/weather.jpeg' %}" alt="Weather Icon" class="weather-icon mr-2">
+                        {{ weather.city }}: {{ weather.description }}, {{ weather.temperature }}°C
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endblock sidebar %}
         <p>Lorem ipsum dolor sit amet, cu eum dicunt virtute, cum an harum mollis. Sed id exerci ubique, munere perpetua in sed. Usu assum graeci salutandi ea, sed et adhuc detracto interesset. Debet periculis cum in, has vide voluptaria complectitur cu.
         </p>
     </div>

@@ -41,7 +41,27 @@ def home(request):
     return render(request, 'itreporting/home.html', {'title': 'Homepage', 'weather_data': weather_data})
 
 def about(request):
-    return render(request, 'itreporting/about.html',)
+    api_key = "b2d64ea0ad361e5db41044f07bfdc2cc"  # Replace with your actual API key
+    url = 'https://api.openweathermap.org/data/2.5/weather?q={},{}&units=metric&appid={}'
+
+    # List of cities and countries
+    cities = [('Leicester', 'UK')]
+
+    # Fetch weather data for each city
+    weather_data = []
+    for city in cities:
+        response = requests.get(url.format(city[0], city[1], api_key))
+        if response.status_code == 200:
+            city_weather = response.json()
+            weather = {
+                'city': city_weather['name'] + ', ' + city_weather['sys']['country'],
+                'temperature': city_weather['main']['temp'],
+                'description': city_weather['weather'][0]['description']
+            }
+            weather_data.append(weather)
+        else:
+            weather_data.append({'city': city[0], 'temperature': 'N/A', 'description': 'Data not available'})
+    return render(request, 'itreporting/about.html', {'title': 'About', 'weather_data': weather_data})
 
 def report(request):
     daily_report = {'issues': Issue.objects.all(), 'title': 'Issues Reported'}
