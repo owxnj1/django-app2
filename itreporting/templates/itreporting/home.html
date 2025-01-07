@@ -7,10 +7,26 @@
 
 {% block content %}
 <div class="text-box">
-    <h1>Leicester University - Home page</h1>
-    <p>Welcome to the official page for Leicester's biggest University</p>
+    <h1>Leicester University </h1>
+    <p>Welcome to the official page for Leicester's biggest University,<br>Over 300,00 students</p>
     <a href="">Sign up to apply for modules today!</a>
 </div>
 
 {% endblock %}
+
+{% block sidebar %}
+<div class="col-md-4 weather-box">
+    <div class="content-section">
+        <h3>Current Weather</h3>
+        <ul class="list-group">
+            {% for weather in weather_data %}
+            <li class="list-group-item">
+                <img src="{% static 'images/weather.jpeg' %}" alt="Weather Icon" class="weather-icon mr-2">
+                {{ weather.city }}: {{ weather.description }}, {{ weather.temperature }}°C
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock sidebar %}
 

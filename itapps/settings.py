@@ -146,6 +146,7 @@ USE_TZ = True
 #MEDIA_ROOT = BASE_DIR / 'media'
 #MEDIA_URL = '/media/'
 
+
 AZURE_SA_NAME = os.environ['AZURE_SA_NAME']
 AZURE_SA_KEY = os.environ['AZURE_SA_KEY']
 
@@ -171,6 +172,8 @@ STORAGES = {
 STATIC_URL = f'https://{AZURE_SA_NAME}.blob.core.windows.net/static/'
 MEDIA_URL = f'https://{AZURE_SA_NAME}.blob.core.windows.net/media/'
 
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

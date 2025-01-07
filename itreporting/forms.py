@@ -10,7 +10,7 @@ class ContactForm(forms.Form):
 class RegistrationForm(forms.ModelForm):
     class Meta:
         model = Registration
-        fields = ['module']  # Only display the module field to the user
+        fields = ['module']  
         widgets = {
             'module': forms.Select(attrs={'class': 'form-control'}),
         }

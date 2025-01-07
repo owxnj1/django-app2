@@ -1,19 +1,27 @@
 {% extends "itreporting/base.html" %}
+{% load static %}
 
 {% block content %}
-    <h1>Student contact us page</h1>
-    <div class="content-section">
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">
-                    Contact us form : 
-                </legend>
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Send</button>
+<div class = "contact-conatiner"></div>
+    <h1 class="contact-title"> Student Contact Page </h1>
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="contact-form-box shadow p-4">
+                <h3 class="text-center mb-4">Contact Us</h3>
+                <form method="POST">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        {{ form.as_p }}
+                    </fieldset>
+                    <div class="form-group text-center">
+                        <button class="btn btn-info btn-lg" type="submit">Send</button>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
+    <div class="col-md-4 text-center">
+        <img src="{% static 'images/leicesterUni.jpeg' %}" alt="University Logo" class="university-logo">
+    </div>
+</div>
 {% endblock %}

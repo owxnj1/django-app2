@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" 
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
     
     <title> Leicester University- {{ title }}</title>
@@ -38,7 +41,7 @@
       </li>
                         </div>
                         
-                        <!-- Conditional Navbar Right Side -->
+                        <!--Navbar Right Side -->
                         <div class="navbar-nav">
                             {% if user.is_authenticated %}
                                   <!-- <a class="nav-item nav-link" href="{% url 'itreporting:issue-create' %}">Report New Issue</a> -->
@@ -65,18 +68,8 @@
             <div class="col-md-8">
                 {% block content %}{% endblock %}
             </div>
-            <div class="col-md-4">
-                <div class="content-section">
-                    <h3>General Information</h3>
-                    <p class="text-muted">Lorem ipsum dolor sit amet, iudico docendi inciderint per eu, ea vis scripta senserit periculis.</p>
-                    <ul class="list-group">
-                        <li class="list-group-item list-group-item-light">Latest Issues Reported</li>
-                        <li class="list-group-item list-group-item-light">IT Policies</li>
-                        <li class="list-group-item list-group-item-light">IT Regulations</li>
-                        <li class="list-group-item list-group-item-light">Upcoming Events</li>
-                    </ul>
-                </div>
-            </div>
+            {% block sidebar %}{% endblock sidebar %}
+            
         </div>
     </div>
 

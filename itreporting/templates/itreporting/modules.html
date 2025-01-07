@@ -12,7 +12,7 @@
         <p><strong>Category:</strong> {{ module.category }}</p>
         <p><strong>Description:</strong> {{ module.description }}</p>
         <p><strong>Availability:</strong> {{ module.availability|yesno:"Open,Closed" }}</p>
-        <a href="{% url 'itreporting:modules_detail' module.id %}">{{ module.name }}</a>
+        <a href="{% url 'itreporting:modules_detail' module.id %}"class="btn btn-primary mt-2">View</a>
         
         {% for registration in module.registrations.all %}
         {% if registration.student == request.user %}

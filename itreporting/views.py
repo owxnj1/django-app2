@@ -13,11 +13,32 @@ from django.core.mail import send_mail
 from django.contrib import messages
 from .models import Module
 from itreporting.models import Registration
+import requests
 
 
 
 def home(request):
-    return render(request, 'itreporting/home.html', {'title': 'Welcome'})
+    api_key = "b2d64ea0ad361e5db41044f07bfdc2cc"  # Replace with your actual API key
+    url = 'https://api.openweathermap.org/data/2.5/weather?q={},{}&units=metric&appid={}'
+
+    # List of cities and countries
+    cities = [('Leicester', 'UK')]
+
+    # Fetch weather data for each city
+    weather_data = []
+    for city in cities:
+        response = requests.get(url.format(city[0], city[1], api_key))
+        if response.status_code == 200:
+            city_weather = response.json()
+            weather = {
+                'city': city_weather['name'] + ', ' + city_weather['sys']['country'],
+                'temperature': city_weather['main']['temp'],
+                'description': city_weather['weather'][0]['description']
+            }
+            weather_data.append(weather)
+        else:
+            weather_data.append({'city': city[0], 'temperature': 'N/A', 'description': 'Data not available'})
+    return render(request, 'itreporting/home.html', {'title': 'Homepage', 'weather_data': weather_data})
 
 def about(request):
     return render(request, 'itreporting/about.html',)
@@ -140,36 +161,34 @@ def contact(request):
     return render(request, 'itreporting/contact.html', {'form': form})
 
 @login_required
-def register_module(request):
-    if request.method == 'POST':
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            module = form.cleaned_data['module']
-            
-            if Registration.objects.filter(student=request.user, module=module).exists():
-                messages.error(request, f"You are already registered for this module !: {module.name}.")
-            else:
-                registration = form.save(commit=False)
-                registration.student = request.user
-                registration.save()
-                messages.success(request, f"Thank you , registration succesful!: {module.name}.")
-    else:
-        form = RegistrationForm()
+def register_module(request, module_id):
+    module = get_object_or_404(Module, id=module_id)
 
-    return render(request, 'itreporting/register_module.html', {'form': form})
+    if not module.availability:
+                messages.error(request, f"Sorry, the module '{module.name}' is currently closed for registration.")
+                return redirect('itreporting:my_modules')  
+
+    if Registration.objects.filter(student=request.user, module=module).exists():
+        messages.error(request, f"You have aleady registered for this module, please slect a new one!: {module.name}.")
+    else:
+        Registration.objects.create(student=request.user, module=module)
+        messages.success(request, f"You have now registered for this module, thank you!: {module.name}.")
+
+    return redirect('itreporting:my_modules')
 
 
 @login_required
 def my_modules(request):
     registrations = Registration.objects.filter(student=request.user)
-    return render(request, 'itreporting/my_modules.html', {'registrations': registrations})
+    profile_image = request.user.profile.image.url if request.user.profile.image else '/media/profile_pics/default.jpg'
+    return render(request, 'itreporting/my_modules.html', {'registrations': registrations,'profile_image': profile_image})
+
 
 @login_required
 def unregister_module(request, module_id):
-    # Get the module the user wants to unregister from
+
     module = get_object_or_404(Module, id=module_id)
-    
-    # Check if the user is registered for this module
+
     registration = Registration.objects.filter(student=request.user, module=module).first()
     if registration:
         registration.delete()
